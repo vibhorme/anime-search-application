@@ -48,6 +48,15 @@ outline: none;
 cursor: pointer;
 `;
 
+const LoadButton = Styled.button`
+background: none;
+color: #ffffff;
+border: 1px solid #ffffff;
+padding: 8px 12px;
+border-radius: 6px;
+outline: none;
+cursor: pointer;
+`;
 const AppStyled = Styled.div`
 width: 100vw;
 height: 100vh;
@@ -56,17 +65,21 @@ height: 100vh;
 const App: React.FC = () => {
   const [input, setInput] = React.useState('');
   const [detail, setDetail] = React.useState([]);
+  const [page, setPage] = React.useState(1);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleOnSearch = async (input: string) => {
     setIsLoading(true);
     try {
       const { data } = await axios({
-        url: `https://api.jikan.moe/v3/search/anime?q=${input}&limit=16`,
+        url: `https://api.jikan.moe/v3/search/anime?q=${input}&limit=16&page=${page}`,
         method: 'get',
       });
       setIsLoading(false);
-      setDetail(data.results);
+      if (detail.length) {
+        var more: any = [...detail, ...data.results];
+        setDetail(more);
+      } else setDetail(data.results);
     } catch (error) {}
   };
   return (
@@ -103,42 +116,54 @@ const App: React.FC = () => {
         {!isLoading ? (
           <>
             {detail.length ? (
-              <Flex
-                justifyContent="space-evenly"
-                flexWrap="wrap"
-                padding="184px 0px"
-              >
-                {detail.map((el: any, index) => {
-                  return (
-                    <Card
-                      padding="0px"
-                      margin="0px 22px 22px 0px"
-                      width="225px"
-                      borderRadius="6px"
-                      cursor="pointer"
-                      onClick={() => (window.location.href = el.url)}
-                      key={index}
-                    >
-                      <img
-                        src={el.image_url}
-                        style={{ borderRadius: '6px 6px 0px 0px' }}
-                        alt="titleImage"
-                      />
-                      <Flex justifyContent="center" padding="12px 0px">
-                        <Text
-                          fontSize="h6"
-                          fontWeight="semiBold"
-                          stringColor="#000"
-                          lineClamp={1}
-                          padding="0px 12px"
-                        >
-                          {el.title}
-                        </Text>
-                      </Flex>
-                    </Card>
-                  );
-                })}
-              </Flex>
+              <>
+                <Flex
+                  justifyContent="space-evenly"
+                  flexWrap="wrap"
+                  padding="184px 0px 0px 0px"
+                >
+                  {detail.map((el: any, index) => {
+                    return (
+                      <Card
+                        padding="0px"
+                        margin="0px 22px 22px 0px"
+                        width="225px"
+                        borderRadius="6px"
+                        cursor="pointer"
+                        onClick={() => (window.location.href = el.url)}
+                        key={index}
+                      >
+                        <img
+                          src={el.image_url}
+                          style={{ borderRadius: '6px 6px 0px 0px' }}
+                          alt="titleImage"
+                        />
+                        <Flex justifyContent="center" padding="12px 0px">
+                          <Text
+                            fontSize="h6"
+                            fontWeight="semiBold"
+                            stringColor="#000"
+                            lineClamp={1}
+                            padding="0px 12px"
+                          >
+                            {el.title}
+                          </Text>
+                        </Flex>
+                      </Card>
+                    );
+                  })}
+                </Flex>
+                <Flex justifyContent="center" padding="0px 0px 21px 0px">
+                  <LoadButton
+                    onClick={() => {
+                      setPage(page + 1);
+                      handleOnSearch(input);
+                    }}
+                  >
+                    Load More
+                  </LoadButton>
+                </Flex>
+              </>
             ) : (
               <Flex
                 flexDirection="column"
