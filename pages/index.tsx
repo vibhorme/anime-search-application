@@ -7,8 +7,19 @@ import Spinner from '../components/Spinner';
 import Styled from 'styled-components';
 import Text from '../components/Typography';
 
+const Header = Styled.div`
+position: fixed;
+box-sizing: border-box;
+width: 100%;
+z-index: 1;
+background: #1e78bf;
+padding: 22px;
+top: 0px;
+
+`;
 const InputStyled = Styled.div`
 display: flex;
+z-index: 1;
 > input, > textarea {
   font-size: 16px;
   font-weight: 500;
@@ -60,40 +71,42 @@ const App: React.FC = () => {
   };
   return (
     <AppStyled>
-      <Card background="#1E78BF" width="100%">
-        <InputStyled>
-          <Input
-            fontSize="h4"
-            fontWeight="semiBold"
-            onChange={(e) => {
-              setInput(e.target.value);
-            }}
-            onKeyUp={(e) => {
-              if (e.keyCode === 13) {
-                handleOnSearch(input);
-              }
-            }}
-            placeholder="Search here..."
-            value={input}
-          />
-          <Button onClick={() => handleOnSearch(input)}> Go</Button>
-        </InputStyled>
-        <Flex margin="12px 0px">
-          <Text fontSize="h5" fontWeight="regular" stringColor="#c6c6c6">
-            Requesting:&nbsp;
-            <span style={{ color: '#ffffff' }}>
-              {' '}
-              https://api.jikan.moe/v3/search/anime?q=&limit=16&page=
-            </span>
-          </Text>
-        </Flex>
+      <Card background="#1E78BF" width="100%" padding="0px">
+        <Header>
+          <InputStyled>
+            <Input
+              fontSize="h4"
+              fontWeight="semiBold"
+              onChange={(e) => {
+                setInput(e.target.value);
+              }}
+              onKeyUp={(e) => {
+                if (e.keyCode === 13) {
+                  handleOnSearch(input);
+                }
+              }}
+              placeholder="Search here..."
+              value={input}
+            />
+            <Button onClick={() => handleOnSearch(input)}> Go</Button>
+          </InputStyled>
+          <Flex margin="12px 0px">
+            <Text fontSize="h5" fontWeight="regular" stringColor="#c6c6c6">
+              Requesting:&nbsp;
+              <span style={{ color: '#ffffff' }}>
+                {' '}
+                https://api.jikan.moe/v3/search/anime?q=&limit=16&page=
+              </span>
+            </Text>
+          </Flex>
+        </Header>
         {!isLoading ? (
           <>
             {detail.length ? (
               <Flex
                 justifyContent="space-evenly"
                 flexWrap="wrap"
-                margin="22px 0px"
+                padding="184px 0px"
               >
                 {detail.map((el: any, index) => {
                   return (
@@ -129,7 +142,7 @@ const App: React.FC = () => {
             ) : (
               <Flex
                 flexDirection="column"
-                margin="22px 0px"
+                padding="184px 0px 0px 0px"
                 justifyContent="center"
               >
                 <img
