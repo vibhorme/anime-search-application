@@ -157,7 +157,11 @@ const App: React.FC = () => {
             )}
           </>
         ) : (
-          <Flex justifyContent="center" padding="42px 0px 0px 0px" width="100%">
+          <Flex
+            justifyContent="center"
+            padding="184px 0px 0px 0px"
+            width="100%"
+          >
             <Spinner type="primary" />
           </Flex>
         )}
