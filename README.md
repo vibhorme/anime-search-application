@@ -2,6 +2,12 @@
 
 ## DEMO: https://anime-search-application.vercel.app/
 
+## Desktop View
+![ScreenShot](/screenshots/desktopImage.png?raw=true "Optional Title")
+
+## Mobile View
+![Alt text](/screenshots/mobileImage.png?raw=true "Optional Title")
+
 API used for Searching: https://api.jikan.moe/v3/search/anime?q=&limit=16&page=
 
 The Frontend Stack used includes
