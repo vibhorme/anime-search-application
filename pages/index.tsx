@@ -136,6 +136,8 @@ const App: React.FC = () => {
                         <img
                           src={el.image_url}
                           style={{ borderRadius: '6px 6px 0px 0px' }}
+                          width="225px"
+                          height="326px"
                           alt="titleImage"
                         />
                         <Flex justifyContent="center" padding="12px 0px">
