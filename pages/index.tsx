@@ -65,22 +65,36 @@ height: 100vh;
 const App: React.FC = () => {
   const [input, setInput] = React.useState('');
   const [detail, setDetail] = React.useState([]);
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = React.useState(2);
   const [isLoading, setIsLoading] = React.useState(false);
 
   const handleOnSearch = async (input: string) => {
     setIsLoading(true);
     try {
       const { data } = await axios({
+        url: `https://api.jikan.moe/v3/search/anime?q=${input}&limit=16`,
+        method: 'get',
+      });
+      setIsLoading(false);
+      setDetail(data.results);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
+
+  const handleOnLoadMore = async (page: number) => {
+    setPage(page + 1);
+    try {
+      const { data } = await axios({
         url: `https://api.jikan.moe/v3/search/anime?q=${input}&limit=16&page=${page}`,
         method: 'get',
       });
       setIsLoading(false);
-      if (detail.length) {
-        var more: any = [...detail, ...data.results];
-        setDetail(more);
-      } else setDetail(data.results);
-    } catch (error) {}
+      var more: any = [...detail, ...data.results];
+      setDetail(more);
+    } catch (error) {
+      setIsLoading(false);
+    }
   };
   return (
     <AppStyled>
@@ -121,6 +135,7 @@ const App: React.FC = () => {
                   justifyContent="space-evenly"
                   flexWrap="wrap"
                   padding="184px 0px 0px 0px"
+                  alignItem="stretch"
                 >
                   {detail.map((el: any, index) => {
                     return (
@@ -145,7 +160,7 @@ const App: React.FC = () => {
                             fontSize="h6"
                             fontWeight="semiBold"
                             stringColor="#000"
-                            lineClamp={1}
+                            textAlign="center"
                             padding="0px 12px"
                           >
                             {el.title}
@@ -158,8 +173,7 @@ const App: React.FC = () => {
                 <Flex justifyContent="center" padding="0px 0px 21px 0px">
                   <LoadButton
                     onClick={() => {
-                      setPage(page + 1);
-                      handleOnSearch(input);
+                      handleOnLoadMore(page);
                     }}
                   >
                     Load More
