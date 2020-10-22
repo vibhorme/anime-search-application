@@ -1,5 +1,7 @@
 # 🎉 Anime-search-application
 
+## DEMO: https://anime-search-application.vercel.app/
+
 API used for Searching: https://api.jikan.moe/v3/search/anime?q=&limit=16&page=
 
 The Frontend Stack used includes
