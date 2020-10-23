@@ -70,6 +70,7 @@ const App: React.FC = () => {
 
   const handleOnSearch = async (input: string) => {
     setIsLoading(true);
+    setPage(2);
     try {
       const { data } = await axios({
         url: `https://api.jikan.moe/v3/search/anime?q=${input}&limit=16`,
